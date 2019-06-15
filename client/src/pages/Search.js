@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import DeleteBtn from "../components/DeleteBtn";
-import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import Jumbotron from "../components/Jumbotron";
 // import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 // import { List, ListItem } from "../components/List";
@@ -12,22 +12,24 @@ import SearchForm from "../components/SearchForm";
 class Search extends Component {
   state = {
     books: [],
-    title: "",
-    error: ""
+    search: "",
+    error: "",
+    savedBooks: [],
+    message:""
   };
 
-  componentDidMount() {
-    this.loadBooks();
-    console.log(this.state.books);
-  }
+  // componentDidMount() {
+  //   this.loadBooks();
+  //   console.log(this.state.books);
+  // }
 
-  loadBooks = () => {
-    API.getBooks()
-      .then(res =>
-        this.setState({ books: res.data.items })
-      )
-      .catch(err => console.log(err));
-  };
+  // loadBooks = () => {
+  //   API.getBooks()
+  //     .then(res =>
+  //       this.setState({ books: res.data.items })
+  //     )
+  //     .catch(err => console.log(err));
+  // };
 
 
   // deleteBook = id => {
@@ -37,20 +39,25 @@ class Search extends Component {
   // };
 
   handleInputChange = event => {
-    const { name, value } = event.target;
+    const { search, value } = event.target;
+    console.log("Search:", search, "Value:", value, "Event:", event);
     this.setState({
-      [name]: value
+      search: value
     });
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
+    console.log("this is search on line 48" + this.state.search);
     API.searchBooks(this.state.search)
+    // console.log("books here:", books)
     .then(res => {
+      console.log("response", res)
       if (res.data.items === "error") {
         throw new Error(res.data.items);
       }
       else {
+        console.log(res.data.items);
         let results = res.data.items;
         results = results.map(result => {
           //map each book data into new object 
@@ -63,6 +70,7 @@ class Search extends Component {
               image: result.volumeInfo.imageLinks.thumbnail,
               link: result.volumeInfo.infoLink
           }
+          console.log(this.state);
           return result;
       })
       this.setState({ books: results, error: "" });
@@ -72,13 +80,19 @@ class Search extends Component {
 };
 
 
-  handleSavedButton = event => {
+ savedBooks = event => {
     event.preventDefault();
     console.log(this.state.books)
+    console.log(this.state.books[0].id)
     let savedBooks = this.state.books.filter(book => book.id === event.target.id)
     savedBooks = savedBooks[0];
+    console.log(savedBooks);
     API.saveBook(savedBooks)
-        .then(this.setState({ message: alert("Your book is saved") }))
+        .then(
+          this.setState({savedBooks: savedBooks}),
+
+          this.setState({ message: alert("Your book is saved") })
+          )
         .catch(err => console.log(err))
 }
 
@@ -86,44 +100,43 @@ class Search extends Component {
     return (
       <Container fluid>
         <Row>
+        <Col size="12">
+         
             <Jumbotron>
-              <h1>Book Search</h1>
+              <h1>Google Book Search</h1>
+              <h3>Search and save your favorite books</h3>
             </Jumbotron>
-            {/* <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title (required)"
-              />
-
-              <FormBtn
-                disabled={!(this.state.title)}
-                onClick={this.handleFormSubmit}
-              >
-                Submit Book
-              </FormBtn>
-            </form> */}
-            <Container>
+            </Col>
+        </Row>
+        <br></br>
+          {/* <Row> */}
+            <Container fluid>
               <Row>
                 <Col size="12"> 
                 <SearchForm
-
+                  value = {this.state.search}
+                  handleFormSubmit={this.handleFormSubmit}
+                  handleInputChange={this.handleInputChange}
                 />
                 </Col>
               </Row>
             </Container>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>Results</h1>
-            </Jumbotron>
-            {this.state.books.length ? (
-            <SearchResults books={this.state.books} handleSavedButton={this.handleSavedButton}/>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+
+
+            {/* {this.state.books.length ? ( */}
+      <Container fluid>
+        <Row>
+          <Col size="12">
+            <SearchResults books={this.state.books} savedBooks={this.savedBooks}/>
+            {/* ) : ( */}
+              {/* <h3>No Results to Display</h3> */}
+            {/* )} */}
           </Col>
         </Row>
+      </Container>
+            
+          {/* </Col> */}
+        {/* </Row> */}
       </Container>
     );
   }
