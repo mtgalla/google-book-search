@@ -9,5 +9,11 @@ This application contains two pages:
 
 Click [here](https://drive.google.com/file/d/1J4yZZpxVlAwc3xN3qMQk6Ho_onYxKvpf/view) for a demo:
 
-**Search**
+**Home Page**
 ![Search](/client/public/google_search.png)
+
+**Search Results**
+![Search](/client/public/google_search2.png)
+
+**Saved Pages**
+![Search](/client/public/google_saved.png)
