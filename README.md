@@ -7,7 +7,7 @@ This application contains two pages:
 
 - Saved - Renders all books saved to the Mongo database. User has an option to "View" the book, bringing them to the book on Google Books, or "Delete" a book, removing it from the Mongo database.
 
-Click [here](link: https://drive.google.com/file/d/1J4yZZpxVlAwc3xN3qMQk6Ho_onYxKvpf/view) for a demo:
+Click [here](https://drive.google.com/file/d/1J4yZZpxVlAwc3xN3qMQk6Ho_onYxKvpf/view) for a demo:
 
 **Search**
 ![Search](/client/public/google_search.png)
