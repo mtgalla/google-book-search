@@ -10,4 +10,4 @@ This application contains two pages:
 Click [here](link: https://drive.google.com/file/d/1J4yZZpxVlAwc3xN3qMQk6Ho_onYxKvpf/view) for a demo:
 
 **Search**
-![Search](/client/public/google_searched.png)
+![Search](/client/public/google_search.png)
