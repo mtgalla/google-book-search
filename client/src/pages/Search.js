@@ -18,26 +18,6 @@ class Search extends Component {
     message:""
   };
 
-  // componentDidMount() {
-  //   this.loadBooks();
-  //   console.log(this.state.books);
-  // }
-
-  // loadBooks = () => {
-  //   API.getBooks()
-  //     .then(res =>
-  //       this.setState({ books: res.data.items })
-  //     )
-  //     .catch(err => console.log(err));
-  // };
-
-
-  // deleteBook = id => {
-  //   API.deleteBook(id)
-  //     .then(res => this.loadBooks())
-  //     .catch(err => console.log(err));
-  // };
-
   handleInputChange = event => {
     const { search, value } = event.target;
     console.log("Search:", search, "Value:", value, "Event:", event);
@@ -79,18 +59,15 @@ class Search extends Component {
     .catch(err => this.setState({ error: err.items }));
 };
 
-
+//save books
  savedBooks = event => {
     event.preventDefault();
-    console.log(this.state.books)
-    console.log(this.state.books[0].id)
     let savedBooks = this.state.books.filter(book => book.id === event.target.id)
     savedBooks = savedBooks[0];
     console.log(savedBooks);
     API.saveBook(savedBooks)
         .then(
           this.setState({savedBooks: savedBooks}),
-
           this.setState({ message: alert("Your book is saved") })
           )
         .catch(err => console.log(err))
@@ -105,34 +82,30 @@ class Search extends Component {
             <Jumbotron>
               <h1>Google Book Search</h1>
               <h3>Search and save your favorite books</h3>
-            </Jumbotron>
-            </Col>
-        </Row>
-        <br></br>
-          {/* <Row> */}
-            <Container fluid>
+              <Container fluid>
               <Row>
-                <Col size="12"> 
+                <Col size="3"></Col>
+                <Col size="6"> 
                 <SearchForm
                   value = {this.state.search}
                   handleFormSubmit={this.handleFormSubmit}
                   handleInputChange={this.handleInputChange}
                 />
                 </Col>
+                <Col size="3"></Col>
               </Row>
             </Container>
-
-
-            {/* {this.state.books.length ? ( */}
-      <Container fluid>
-        <Row>
-          <Col size="12">
-            <SearchResults books={this.state.books} savedBooks={this.savedBooks}/>
-            {/* ) : ( */}
-              {/* <h3>No Results to Display</h3> */}
-            {/* )} */}
-          </Col>
+            </Jumbotron>
+            </Col>
         </Row>
+
+      <Container fluid>
+
+
+            <SearchResults books={this.state.books} savedBooks={this.savedBooks}/>
+
+      
+
       </Container>
             
           {/* </Col> */}

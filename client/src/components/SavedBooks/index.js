@@ -7,7 +7,7 @@ const SavedBooks = props => {
     <div className="card">
         <div className="card-body player">
             <div className="article">
-                <h3>Saved Books</h3>
+                <h3>No Saved Books</h3>
             </div>
         </div>
     </div>
@@ -18,14 +18,13 @@ const SavedBooks = props => {
                     <h3>Saved Books</h3>
                     {props.savedBooks.map(saveBook => {
                         return (
+                          <div>
                             <li className="list list-group-item">
                                 <Row className="SearchResult row" id={saveBook.title + "Card"} key={saveBook._id}>
-                                    {/* col-3 show image of the book */}
                                     <Col size="12" className="bookImage">
                                         <img src={saveBook.image} alt={saveBook.title} />
                                     </Col>
                                     <Col size="1" className="emptyCol"/>
-                                    {/* col-9 show information of the book */}
                                     <Col size="9" className="bookInfo">
                                         <Row>
                                             <h3 className="bookTitle">{saveBook.title}</h3>
@@ -40,7 +39,7 @@ const SavedBooks = props => {
                                 </Row>
                                 <br></br>
                                 <Row className="buttonDiv ">
-                                    <button className="saveBook btn btn-primary" id={saveBook._id} onClick={(event) => props.deleteBook(event)}>
+                                    <button className="saveBook btn btn-primary" id={saveBook._id} data-bookid={saveBook._id} onClick={(event) => props.deleteBook(event)}>
                                         Delete Book
                                     </button>
                                     <a href={saveBook.link} target="_blank" rel="noopener noreferrer">
@@ -50,6 +49,8 @@ const SavedBooks = props => {
                                     </a>
                                 </Row>
                             </li>
+                            <br />
+                          </div>
                         );
                     })}
                 </div>
