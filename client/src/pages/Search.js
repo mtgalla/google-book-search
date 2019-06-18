@@ -33,7 +33,7 @@ class Search extends Component {
     // console.log("books here:", books)
     .then(res => {
       console.log("response", res)
-      if (res.data.items === "error") {
+      if (res.data.items === "error" || res.data.items === undefined) {
         throw new Error(res.data.items);
       }
       else {
@@ -56,7 +56,7 @@ class Search extends Component {
       this.setState({ books: results, error: "" });
     }
   })
-    .catch(err => this.setState({ error: err.items }));
+    .catch(err => this.setState({ error: err.items, books:"" }), console.log("this is an error"));
 };
 
 //save books
