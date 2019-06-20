@@ -28,12 +28,13 @@ class Search extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
-    console.log("this is search on line 48" + this.state.search);
+    console.log("this is search on line 48 " + this.state.search);
     API.searchBooks(this.state.search)
     // console.log("books here:", books)
     .then(res => {
       console.log("response", res)
       if (res.data.items === "error" || res.data.items === undefined) {
+        console.log(res.data.items);
         throw new Error(res.data.items);
       }
       else {
@@ -41,19 +42,22 @@ class Search extends Component {
         let results = res.data.items;
         results = results.map(result => {
           //map each book data into new object 
+          //with ternary operators to handle missing results
           result = {
               key: result.id,
               id: result.id,
-              title: result.volumeInfo.title,
-              authors: result.volumeInfo.authors,
-              description: result.volumeInfo.description,
-              image: result.volumeInfo.imageLinks.thumbnail,
-              link: result.volumeInfo.infoLink
+              title: (result.volumeInfo.title===undefined) ? ("No title") : (result.volumeInfo.title),
+              authors: (result.volumeInfo.authors===undefined) ? ("No author") : (result.volumeInfo.authors),
+              description: (result.volumeInfo.description===undefined) ? ("No description") : (result.volumeInfo.description),
+              image: (result.volumeInfo.imageLinks===undefined) ? ("No image") : (result.volumeInfo.imageLinks.thumbnail),
+              link: (result.volumeInfo.infoLink===undefined) ? ("No link") : (result.volumeInfo.infoLink)
           }
-          console.log(this.state);
+          // console.log(result);
           return result;
       })
       this.setState({ books: results, error: "" });
+      console.log(this.state);
+      console.log(results)
     }
   })
     .catch(err => this.setState({ error: err.items, books:"" }), console.log("this is an error"));
@@ -84,15 +88,15 @@ class Search extends Component {
               <h3>Search and save your favorite books</h3>
               <Container fluid>
               <Row>
-                <Col size="3"></Col>
-                <Col size="6"> 
+                <Col size="xs-1 sm-3"></Col>
+                <Col size="xs-10 sm-6"> 
                 <SearchForm
                   value = {this.state.search}
                   handleFormSubmit={this.handleFormSubmit}
                   handleInputChange={this.handleInputChange}
                 />
                 </Col>
-                <Col size="3"></Col>
+                <Col size="xs-1 sm-3"></Col>
               </Row>
             </Container>
             </Jumbotron>
